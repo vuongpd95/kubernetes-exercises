@@ -50,8 +50,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        - name: UUID_SERVICE_NAME
-          value: cv-service
         - name: RACK_ENV
           value: production
         ports:
