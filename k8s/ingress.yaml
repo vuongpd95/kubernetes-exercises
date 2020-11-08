@@ -7,8 +7,11 @@ spec:
   - host: k8s-exercises.chilling.dev
   - http:
       paths:
-      - path: /(cv)?
-        pathType: Exact
+      - path: /
+        backend:
+          serviceName: cv-service
+          servicePort: 8080
+      - path: /cv
         backend:
           serviceName: cv-service
           servicePort: 8080
