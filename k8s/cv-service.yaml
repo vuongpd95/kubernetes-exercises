@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
       - name: cv-service
-        image: docker.io/downey/sinatra-k8s-sample:latest
+        image: lityourcode/cv-service:0.1
         env:
         - name: POD_NAME
           valueFrom:
