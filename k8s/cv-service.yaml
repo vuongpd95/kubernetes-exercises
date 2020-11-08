@@ -2,7 +2,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cv-service
-  namespace: k8s-exercises
 spec:
   ports:
   - port: 8080
@@ -17,7 +16,6 @@ metadata:
   labels:
     app: cv-service
   name: cv-service-deploy
-  namespace: k8s-exercises
 spec:
   replicas: 3
   selector:
