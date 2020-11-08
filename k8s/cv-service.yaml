@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: cv-service
-        image: lityourcode/cv-service:0.3
+        image: lityourcode/cv-service:0.4
         readinessProbe:
           httpGet:
             path: /
