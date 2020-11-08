@@ -12,4 +12,6 @@ RUN bundle install
 
 COPY . .
 
-CMD bundle exec rackup -p 8080
+EXPOSE 8080
+
+CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "8080"]
