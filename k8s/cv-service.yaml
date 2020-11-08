@@ -34,13 +34,13 @@ spec:
       containers:
       - name: cv-service
         image: lityourcode/cv-service:0.3
-        livenessProbe:
+        readinessProbe:
           httpGet:
             path: /
             port: 8080
-            scheme: HTTP
-          initialDelaySeconds: 120
-          timeoutSeconds: 5
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 3
         env:
         - name: POD_NAME
           valueFrom:
