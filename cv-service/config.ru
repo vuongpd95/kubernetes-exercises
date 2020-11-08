@@ -37,7 +37,7 @@ class Service < Sinatra::Base
   end
 
   def uuid_service_addr
-    uuid_service_prefix = ENV['UUID_SERVICE_NAME']&.upcase
+    uuid_service_prefix = ENV['UUID_SERVICE_NAME']&.upcase&.split('-')&.join('_')
     uuid_service_host = ENV["#{uuid_service_prefix}_SERVICE_HOST"]
     uuid_service_port = ENV["#{uuid_service_prefix}_SERVICE_PORT"]
 
