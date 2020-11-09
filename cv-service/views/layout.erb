@@ -19,6 +19,9 @@
       <h2 class='h4 mt-0'><b>Kubernetes information</b></h2>
       <p><b>POD NAME:</b> <%= pod_name %></p>
       <p><b>POD IP:</b> <%= pod_ip %></p>
+      <% if request.path == '/cv' %>
+        <p>Check X-Rack-Cache header to see if this page is from cache</p>
+      <% end %>
     </div>
     <ul class="nav nav-pills">
       <li role="presentation" class=<%= request.path == '/' ? "active" : '' %>><a href="/">Home</a></li>

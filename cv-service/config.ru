@@ -1,14 +1,15 @@
 require 'sinatra'
 require "sinatra/reloader" if development?
-require 'net/http'
-require 'json'
+require 'rack/cache'
+require 'redis-rack-cache'
 
 class Service < Sinatra::Base
   get '/' do
     erb :homepage, locals: with_k8s_locals({ title: "Homepage" })
   end
-  
+
   get '/cv' do
+    cache_control :public, max_age: 1800
     erb :cv, locals: with_k8s_locals({ title: "CV" })
   end
 
@@ -26,4 +27,5 @@ class Service < Sinatra::Base
   end
 end
 
+use Rack::Cache, verbose: true, metastore: 'redis://redis-cache-service:6379/0', entitystore: 'redis://redis-cache-service:6379/1'
 run Service
