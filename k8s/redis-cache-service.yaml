@@ -7,24 +7,23 @@ spec:
   - port: 6379
     protocol: TCP
     targetPort: 6379
+  clusterIP: None
   selector:
     app: redis-cache-service
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   labels:
     app: redis-cache-service
-  name: redis-cache-service-deploy
+  name: redis-cache-service-ss
 spec:
   replicas: 1
+  serviceName: redis-cache-service
   selector:
     matchLabels:
       app: redis-cache-service
-  strategy:
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  updateStrategy:
     type: RollingUpdate
   template:
     metadata:
@@ -66,17 +65,12 @@ spec:
           items:
           - key: volatile-redis-cache.conf
             path: volatile-redis-cache.conf
-      - name: data
-        persistentVolumeClaim:
-          claimName: redis-cache-service-pvc
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: redis-cache-service-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 100Mi
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: 
+        - ReadWriteOnce
+      resources:
+        requests:
+          storage: 100Mi
