@@ -9,3 +9,12 @@ gem 'sinatra-contrib'
 gem 'puma'
 gem 'rack-cache'
 gem 'redis-rack-cache'
+gem 'activerecord'
+gem 'sinatra-activerecord'
+gem 'mysql2'
+gem 'rake'
+gem 'faker'
+
+group :development do
+  gem 'sqlite3'
+end
