@@ -1,0 +1,80 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cv-service-db
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: cv-service-db
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cv-service-db-deploy
+spec:
+  selector:
+    matchLabels:
+      app: cv-service-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: cv-service-db
+    spec:
+      containers:
+      - image: mysql:5.7
+        name: cv-service-db
+        envFrom:
+        - secretRef:
+            name: cv-service-db-secrets
+        ports:
+        - containerPort: 3306
+          name: cv-service-db
+        volumeMounts:
+        - name: cv-service-db-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: cv-service-db-persistent-storage
+        persistentVolumeClaim:
+          claimName: cv-service-db-pvc
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast-service-db
+provisioner: kubernetes.io/gce-pd
+reclaimPolicy: Retain
+parameters:
+  type: pd-ssd
+  fstype: ext4
+  replication-type: none
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: cv-service-db-pv
+  labels:
+    app: cv-service-db
+spec:
+  storageClassName: fast-service-db
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: /var/lib/data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cv-service-db-pvc
+spec:
+  storageClassName: fast-service-db
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
