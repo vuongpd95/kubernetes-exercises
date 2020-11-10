@@ -17,13 +17,13 @@ metadata:
     app: cv-service
   name: cv-service-deploy
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: cv-service
   strategy:
     rollingUpdate:
-      maxSurge: 0
+      maxSurge: 1
       maxUnavailable: 1
     type: RollingUpdate
   template:
@@ -33,7 +33,8 @@ spec:
     spec:
       containers:
       - name: cv-service
-        image: lityourcode/cv-service:0.6
+        image: lityourcode/cv-service:0.7
+        command: ["bundle", "exec", "rackup", "--host", "0.0.0.0", "-p", "8080"]
         readinessProbe:
           httpGet:
             path: /

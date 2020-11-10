@@ -27,5 +27,8 @@ class Service < Sinatra::Base
   end
 end
 
-use Rack::Cache, verbose: true, metastore: 'redis://redis-cache-service:6379/0', entitystore: 'redis://redis-cache-service:6379/1'
+if production?
+  use Rack::Cache, verbose: true, metastore: 'redis://redis-cache-service:6379/0', entitystore: 'redis://redis-cache-service:6379/1'
+end
+
 run Service
