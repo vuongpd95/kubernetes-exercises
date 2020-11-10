@@ -30,3 +30,16 @@ kubectl exec -it cv-service-deploy-8549876bb5-tcfgt -- bash
 ```
 exec 3<>/dev/tcp/redis-service-name/6379 && echo -e "PING\r\n" >&3 && head -c 7 <&3
 ```
+
+### In case you want to look for resources to delete
+```
+kubectl get all
+```
+
+### Protected persistent volumne won't get deleted by using GKE UI alone!
+```
+# Patch to remove the protection first
+kubectl patch pvc pvc-name -p '{"metadata":{"finalizers": []}}' --type=merge
+# Delete the pv
+kubeclt delete pvc pvc-name
+```
