@@ -43,3 +43,8 @@ kubectl patch pvc pvc-name -p '{"metadata":{"finalizers": []}}' --type=merge
 # Delete the pv
 kubeclt delete pvc pvc-name
 ```
+
+### Using yaml file to delete is even more effective
+```
+kubectl delete -f cv-service-db.yaml
+```
