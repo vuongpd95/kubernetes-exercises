@@ -53,6 +53,25 @@ spec:
               fieldPath: status.podIP
         - name: RACK_ENV
           value: production
+        - name: REDIS_CACHE_METASTORE
+          value: redis://redis-cache-service:6379/0
+        - name: REDIS_CACHE_ENTITYSTORE
+          value: redis://redis-cache-service:6379/1
+        - name: DATABASE_USERNAME
+          valueFrom:
+            secretRef:
+              name: cv-service-db-secrets
+              key: MYSQL_USER
+        - name: DATABASE_PASSWORD
+          valueFrom:
+            secretRef:
+              name: cv-service-db-secrets
+              key: MYSQL_PASSWORD
+        - name: DATABASE_NAME
+          valueFrom:
+            secretRef:
+              name: cv-service-db-secrets
+              key: MYSQL_DATABASE
         ports:
         - containerPort: 8080
           name: http

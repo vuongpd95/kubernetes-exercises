@@ -6,6 +6,7 @@ Dir['./models/**/*.rb'].each { |file| require file }
 
 class Service < Sinatra::Base
   get '/' do
+    cache_control :public, max_age: 300
     erb :homepage, locals: with_k8s_locals({ title: "Homepage" })
   end
 
